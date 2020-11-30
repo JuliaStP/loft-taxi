@@ -1,37 +1,47 @@
 import React from "react";
-import SignIn from "./SignIn";
-import SignUp  from "./SignUp";
-import { Profile } from "./Profile";
-import { Map } from "./Map";
+import { SignInWithAuth } from "./SignIn";
+import SignUp from "./SignUp";
+import { ProfileWithAuth } from "./Profile";
+import Map  from "./Map";
+import { withAuth } from "./Auth";
+import PropTypes from 'prop-types';
 import './App.css';
 import Header from './Header';
+
+
+const pages = {
+  map: (props) => <Map {...props} />,
+  profile: (props) => <ProfileWithAuth {...props} />,
+  signin: (props) => <SignInWithAuth {...props} />,
+  signup: (props) => <SignUp {...props} />
+};
 
 class App extends React.Component {
   state = { currentPage: 'signin'};
 
   navigateTo = (page) => {
-    this.setState({ currentPage: page });
+    if (this.props.isLoggedIn) {
+      this.setState({ currentPage: page });
+    } else {
+      this.setState({ currentPage: "signin" });
+    }
   };
-
-  pages = {
-    map: <Map />,
-    profile: <Profile />,
-    signin: <SignIn navigateTo={this.navigateTo} />,
-    signup: <SignUp navigateTo={this.navigateTo} />
-  };
-
 
   render() {
     const {currentPage} = this.state
-    const paths = Object.keys(this.pages)
+    const paths = Object.keys(pages)
     
     return (
       <>
-        <Header paths={paths} navigateTo={this.navigateTo} />
-        {this.pages[currentPage]}
+        <Header paths={paths} navigateTo={this.navigateTo}/>
+        {pages[currentPage] ({ navigate: this.navigateTo })}
       </>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  isLoggedIn: PropTypes.bool
+};
+
+export default withAuth(App);

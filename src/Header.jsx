@@ -30,10 +30,19 @@ const Header = (props) => {
             <li>
               <button
                 onClick={() => {
-                  navigateTo("signin");
+                  navigateTo("signup");
                 }}
               >
                 Log out
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  navigateTo("signup");
+                }}
+              >
+                Sign Up
               </button>
             </li>
           </ul>

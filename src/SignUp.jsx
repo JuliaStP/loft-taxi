@@ -1,31 +1,72 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
+import  Input  from './Input';
 
 class SignUp extends React.Component {
-  handleSubmit=(e)=>{
-    const {navigateTo} = this.props;
-    e.preventDefault()
-    navigateTo('signin');
-  }
+  goToSignIn = (e) => {
+    e.preventDefault();
+    this.props.signOut();
+    this.props.navigate('signin');
+  };
+
+  register = (e) => {
+    e.preventDefault();
+    this.props.signOut();
+    this.props.navigate("signin");
+  };
+
+  state = {
+    email: '',
+    name: '',
+    password: ''
+  };
+
+  HandlerInputChange = ({ name, value }) => {
+    this.setState({ [name]: value });
+  };
 
   render() {
-  return (
-    <form> Sign Up
-      <label htmlFor="email">Email</label>
-      <input placeholder="mail@mail.com" id="email" type="email" name="email" size="28" />
-      <label htmlFor="name">Full name</label>
-      <input placeholder="John Smith" id="name" type="name" name="name" size="28" />
-      <label htmlFor="password">Password</label>
-      <input placeholder="**********" id="password" type="password" name="password" size="28" />
-      <button onClick={this.handleSubmit}>
-        Sign Up
-      </button>
-      <div>Already signed up? 
-        <button onClick={this.handleSubmit}>Log in</button>
-      </div>
-    </form>
-  );
-}
+    return (
+      <>
+        <form onSubmit={() => { this.register() }}> Sign Up
+        <Input 
+            // aria-labelledby="Email"
+            label="Email"
+            type="email"
+            name="email"
+            changeHandler={this.HandlerInputChange} />
+          <Input
+            label="Name"
+            type="name"
+            name="name"
+            class="half"
+            changeHandler={this.HandlerInputChange}
+          />
+          <Input
+            label="Password"
+            type="password"
+            name="password"
+            changeHandler={this.HandlerInputChange}
+          />
+          <button type="submit">
+            Sign Up
+        </button>
+          <div>Already signed up?
+        <button onClick={() => { this.goToSignIn() }}>Log in</button>
+          </div>
+        </form>
+      </>
+    );
+  }
 }
 
+// SignUp.propTypes = {
+//   isLoggedIn: PropTypes.bool,
+//   signIn: PropTypes.func,
+//   signOut: PropTypes.func,
+//   navigate: PropTypes.func,
+// };
+SignUp.propTypes = {
+  handlerSubmit: PropTypes.func
+};
 export default SignUp;
-
