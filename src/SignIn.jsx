@@ -1,6 +1,7 @@
 import React from 'react';
 import {PropTypes} from 'prop-types'
 import { withAuth } from "./Auth";
+import  Input  from "./Input";
 
 export class SignIn extends React.Component {
   handleSubmit = (e) => {
@@ -23,6 +24,10 @@ export class SignIn extends React.Component {
     this.props.navigate('map');
 };
 
+  HandlerInputChange = ({ name, value }) => {
+    this.setState({ [name]: value });
+  };
+
   render() {
     return (
       <>
@@ -36,10 +41,18 @@ export class SignIn extends React.Component {
         ) : (
           <div>
             <form onSubmit={this.handleSubmit}> Sign In
-              <label htmlFor="email">Email</label>
-              <input id="email" type="email" name="email" placeholder="mail@mail.com" size="28" />
-              <label htmlFor="password">Password</label>
-              <input id="password" type="password" name="password" placeholder="**********" size="28" />
+              <Input 
+                label="Email"
+                type="email"
+                name="email"
+                changeHandler={this.HandlerInputChange}
+              />
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                changeHandler={this.HandlerInputChange}
+              />
               <button type="submit">Sign in</button>
             </form>
             <div>New user? 

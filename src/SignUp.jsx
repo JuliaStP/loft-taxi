@@ -29,7 +29,7 @@ class SignUp extends React.Component {
     return (
       <>
         <form onSubmit={() => { this.register() }}> Sign Up
-        <Input 
+          <Input 
             // aria-labelledby="Email"
             label="Email"
             type="email"
@@ -50,9 +50,9 @@ class SignUp extends React.Component {
           />
           <button type="submit">
             Sign Up
-        </button>
+          </button>
           <div>Already signed up?
-        <button onClick={() => { this.goToSignIn() }}>Log in</button>
+            <button onClick={() => { this.goToSignIn() }}>Log in</button>
           </div>
         </form>
       </>
@@ -60,13 +60,9 @@ class SignUp extends React.Component {
   }
 }
 
-// SignUp.propTypes = {
-//   isLoggedIn: PropTypes.bool,
-//   signIn: PropTypes.func,
-//   signOut: PropTypes.func,
-//   navigate: PropTypes.func,
-// };
 SignUp.propTypes = {
-  handlerSubmit: PropTypes.func
+  handlerSubmit: PropTypes.func,
+  navigate: PropTypes.func,
 };
+
 export default SignUp;
