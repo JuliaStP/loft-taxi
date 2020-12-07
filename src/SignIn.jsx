@@ -1,24 +1,21 @@
 import React from 'react';
 import {PropTypes} from 'prop-types'
-import { withAuth } from "./Auth";
 import  Input  from "./Input";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { authenticate } from "./actions";
 
 export class SignIn extends React.Component {
-  handleSubmit = (e) => {
+  authenticate = (e) => {
     e.preventDefault();
     const { email, password } = e.target;
-    this.props.signIn(email.value, password.value);
+    this.props.authenticate(email.value, password.value);
   };
 
   handleSignup = (event) =>{
     event.preventDefault();
     this.props.navigate("signup");
   }
-
-  goToProfile = (event) => {
-    event.preventDefault();
-    this.props.navigate("profile");
-  };
 
   handlerSubmit = () => {
     this.props.navigate('map');
@@ -34,13 +31,11 @@ export class SignIn extends React.Component {
         {this.props.isLoggedIn ? (
           <p>
             Success!{" "}
-            <button onClick={this.goToProfile}>
-              Proceed
-            </button>
+            <Link to="/profile"> Proceed </Link>
           </p>
         ) : (
           <div>
-            <form onSubmit={this.handleSubmit}> Sign In
+            <form onSubmit={this.authenticate}> Sign In
               <Input 
                 label="Email"
                 type="email"
@@ -56,7 +51,7 @@ export class SignIn extends React.Component {
               <button type="submit">Sign in</button>
             </form>
             <div>New user? 
-              <button onClick={this.handleSignup}>Sign up</button>
+              <Link to="/signup"> Sign Up </Link>
             </div>
           </div>
         )}
@@ -71,4 +66,7 @@ SignIn.propTypes = {
   navigate: PropTypes.func,
 };
 
-export const SignInWithAuth = withAuth(SignIn);
+export const SignInWithConnect = connect(
+  (state) => ({ isLoggedIn: state.auth.isLoggedIn }), // selector
+  { authenticate } // method
+)(SignIn);

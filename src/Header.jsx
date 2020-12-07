@@ -1,8 +1,14 @@
 import React from 'react';
 import Logo from './img/logo-header.png'
+import { signOut }  from './actions'
+import { Link } from "react-router-dom";
 
 const Header = (props) => {
-  const { navigateTo } = props;
+  // const unauth = (e) => {
+  //   e.preventDefault();
+  //   const {signOut} = props;
+  //   signOut({success: false, error: ''});
+  // }
 
   return(
       <div>
@@ -10,40 +16,16 @@ const Header = (props) => {
         <nav>
           <ul>
             <li>
-              <button
-                onClick={() => {
-                  navigateTo("map");
-                }}
-              >
-                Map
-              </button>
+              <Link to="/map">Map</Link>
             </li>
             <li>
-              <button
-                onClick={() => {
-                  navigateTo("profile");
-                }}
-              >
-                Profile
-              </button>
+              <Link to="/profile">Profile</Link>
             </li>
             <li>
-              <button
-                onClick={() => {
-                  navigateTo("signup");
-                }}
-              >
-                Log out
-              </button>
+              <Link to="/">Log out</Link>
             </li>
             <li>
-              <button
-                onClick={() => {
-                  navigateTo("signup");
-                }}
-              >
-                Sign Up
-              </button>
+              <Link to="/signup">Sign up</Link>
             </li>
           </ul>
         </nav>

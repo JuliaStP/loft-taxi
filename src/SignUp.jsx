@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import  Input  from './Input';
+import { Link } from "react-router-dom";
 
 class SignUp extends React.Component {
   goToSignIn = (e) => {
@@ -52,7 +53,7 @@ class SignUp extends React.Component {
             Sign Up
           </button>
           <div>Already signed up?
-            <button onClick={() => { this.goToSignIn() }}>Log in</button>
+            <Link to="/signin">Log in</Link>
           </div>
         </form>
       </>

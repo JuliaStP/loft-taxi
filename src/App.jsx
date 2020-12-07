@@ -1,47 +1,37 @@
 import React from "react";
-import { SignInWithAuth } from "./SignIn";
+import { SignInWithConnect } from "./SignIn";
 import SignUp from "./SignUp";
-import { ProfileWithAuth } from "./Profile";
-import Map  from "./Map";
-import { withAuth } from "./Auth";
-import PropTypes from 'prop-types';
-import './App.css';
-import Header from './Header';
-
-
-const pages = {
-  map: (props) => <Map {...props} />,
-  profile: (props) => <ProfileWithAuth {...props} />,
-  signin: (props) => <SignInWithAuth {...props} />,
-  signup: (props) => <SignUp {...props} />
-};
+import SignIn from "./SignIn";
+import { ProfileWithConnect } from "./Profile";
+import Map from "./Map";
+import PropTypes from "prop-types";
+import "./App.css";
+import Header from "./Header";
+import { connect } from "react-redux";
+import { PrivateRoute } from "./PrivateRoute";
+import { Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
-  state = { currentPage: 'signin'};
-
-  navigateTo = (page) => {
-    if (this.props.isLoggedIn) {
-      this.setState({ currentPage: page });
-    } else {
-      this.setState({ currentPage: "signin" });
-    }
-  };
-
   render() {
-    const {currentPage} = this.state
-    const paths = Object.keys(pages)
-    
     return (
       <>
-        <Header paths={paths} navigateTo={this.navigateTo}/>
-        {pages[currentPage] ({ navigate: this.navigateTo })}
+        <Header />
+        <section>
+          <Switch>
+            <Route exact path="/" component={SignInWithConnect} />
+            <PrivateRoute path="/map" component={Map} />
+            <PrivateRoute path="/profile" component={ProfileWithConnect} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/signin" component={SignInWithConnect} />
+          </Switch>
+        </section>
       </>
     );
   }
 }
 
 App.propTypes = {
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
 };
 
-export default withAuth(App);
+export default connect((state) => ({ isLoggedIn: state.auth.isLoggedIn }))(App);
