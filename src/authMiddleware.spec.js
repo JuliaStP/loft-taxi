@@ -1,37 +1,38 @@
 import { authMiddleware } from "./authMiddleware";
-import { authenticate } from "./actions";
-import { serverLogIn } from "./api";
+import { authenticate,signUp } from "./actions";
+import { serverLogin, serverSignup } from "./api";
 
-jest.mock("./api", () => ({ __esModule: true, namedExport: jest.fn(), serverLogIn: jest.fn(() => true) }));
+jest.mock('./api', () => ({ 
+  serverLogin: jest.fn(() => true),
+  serverSignup: jest.fn(() => true)
+}));
 
-describe("authMiddleware", () => {
-  afterAll(jest.clearAllMocks)
+describe('authMiddleware', () => {
+  describe('#AUTHENTICATE', () => {
+    it('api auth', async () => {
+      serverLogin.mockImplementation(async () => true);
+      const dispatch = jest.fn();
 
-  describe("#AUTHENTICATE", () => {
-    describe("with correct credentials", () => {
-      it("authenticates through api", async () => {
-        serverLogIn.mockImplementation(async () => true);
-        const dispatch = jest.fn();
+      await authMiddleware({ dispatch })()(
+        authenticate('testlogin', 'testpassword')
+      );
 
-        await authMiddleware({ dispatch })()(
-          authenticate("testlogin", "testpassword")
-        );
-        expect(serverLogIn).toBeCalledWith("testlogin", "testpassword");
-        expect(dispatch).toBeCalledWith({
-          type: "LOG_IN",
-        });
-      });
+      expect(serverLogin).toBeCalledWith('testlogin', 'testpassword');
+      expect(dispatch).toBeCalledWith({ type: 'LOG_IN' });
     });
-    describe("with wrong credentials", () => {
-      it("authenticates through api", async () => {
-        serverLogIn.mockImplementation(() => false);
-        const dispatch = jest.fn();
+  });
 
-        await authMiddleware({ dispatch })()(
-          authenticate("testlogin", "testpassword")
-        );
-        expect(dispatch).not.toBeCalled();
-      });
+  describe('#CHECKIN', () => {
+    it('api auth', async () => {
+      serverSignup.mockImplementation(async () => true);
+      const dispatch = jest.fn();
+
+      await authMiddleware({ dispatch })()(
+        signUp('testlogin', 'testfirstname', 'testlastname', 'testpassword')
+      );
+
+      expect(serverSignup).toBeCalledWith('testlogin', 'testfirstname', 'testlastname', 'testpassword');
+      expect(dispatch).toBeCalledWith({ type: 'LOG_IN' });
     });
   });
 });

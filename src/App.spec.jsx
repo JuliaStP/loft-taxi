@@ -32,27 +32,4 @@ describe("App", () => {
     );
     expect(container.innerHTML).toMatch("");
   });
-
-  describe("when clicked on navigation buttons", () => {
-    it("opens the corresponding page", () => {
-      const mockStore = {
-        getState: () => ({ auth: { isLoggedIn: true } }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-      const history = createMemoryHistory();
-      const { container, getByText } = render(
-        <Router history={history}>
-          <Provider store={mockStore}>
-            <App />
-          </Provider>
-        </Router>
-      );
-      expect(container.innerHTML).toMatch("");
-      fireEvent.click(getByText("Map"));
-      expect(container.innerHTML).toMatch("Map");
-      fireEvent.click(getByText("Profile"));
-      expect(container.innerHTML).toMatch("Profile");
-    });
-  });
-});
+})

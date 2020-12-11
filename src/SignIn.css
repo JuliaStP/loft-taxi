@@ -1,0 +1,28 @@
+.login-form {
+  right: 50%;
+  top: 50%;
+  transform: translate(100%, -50%);
+  position: absolute;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  min-width: 390px;
+}
+
+.label {
+  margin-top: 45px;
+}
+
+.input {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.button {
+  min-height: 50px;
+  min-width: 160px;
+  margin-top: 40px;
+  margin-left: auto;
+}

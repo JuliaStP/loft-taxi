@@ -1,72 +1,61 @@
 import React from 'react';
-import {PropTypes} from 'prop-types'
-import  Input  from "./Input";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { authenticate } from "./actions";
+import './SignIn.css';
 
-export class SignIn extends React.Component {
-  authenticate = (e) => {
-    e.preventDefault();
-    const { email, password } = e.target;
-    this.props.authenticate(email.value, password.value);
-  };
+import FormLabel from '@material-ui/core/FormLabel';
+import Input from '@material-ui/core/Input';
 
-  handleSignup = (event) =>{
-    event.preventDefault();
-    this.props.navigate("signup");
+class SignIn extends React.Component {
+  state = {
+    email: '',
+    password: ''
   }
-
-  handlerSubmit = () => {
-    this.props.navigate('map');
-};
-
-  HandlerInputChange = ({ name, value }) => {
-    this.setState({ [name]: value });
+  
+  authenticate = e => {
+    e.preventDefault();
+    const {email, password} = e.target ;
+    this.props.authenticate(email.value, password.value); 
   };
-
+ 
   render() {
+    const { email, password } = this.state;
     return (
-      <>
-        {this.props.isLoggedIn ? (
-          <p>
-            Success!{" "}
-            <Link to="/profile"> Proceed </Link>
-          </p>
-        ) : (
-          <div>
-            <form onSubmit={this.authenticate}> Sign In
-              <Input 
-                label="Email"
-                type="email"
-                name="email"
-                changeHandler={this.HandlerInputChange}
-              />
-              <Input
-                label="Password"
-                type="password"
-                name="password"
-                changeHandler={this.HandlerInputChange}
-              />
-              <button type="submit">Sign in</button>
-            </form>
-            <div>New user? 
-              <Link to="/signup"> Sign Up </Link>
-            </div>
-          </div>
-        )}
-      </>
+      <div className='form login-form'> 
+        {this.props.isLoggedIn && < Redirect to='/map' />}
+        <h2>Sign In</h2>
+        New User?  <Link to='/signup'>Sign Up</Link>
+        <form onSubmit={this.authenticate} className='login'>
+          <FormLabel className='label'>
+            User Name*
+            <Input 
+              className='input'
+              type='text'
+              name='email'
+              value={email} 
+              onChange={e => this.setState({ email: e.target.value })} 
+            />
+          </FormLabel>
+          <FormLabel className='label'>
+            Password*
+            <Input 
+              className='input'
+              type='password'
+              name='password'
+              value={password} 
+              onChange={e => this.setState({ password: e.target.value })} 
+            />
+          </FormLabel>
+          <button type='submit' className='button'>Log In</button>
+        </form>
+      </div>
     );
   }
 }
 
-SignIn.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  signIn: PropTypes.func,
-  navigate: PropTypes.func,
-};
-
-export const SignInWithConnect = connect(
-  (state) => ({ isLoggedIn: state.auth.isLoggedIn }), // selector
-  { authenticate } // method
+export default connect(
+  (state) => ({isLoggedIn: state.auth.isLoggedIn}),
+  { authenticate }
 )(SignIn);
+

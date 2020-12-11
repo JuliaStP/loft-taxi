@@ -1,36 +1,38 @@
-import React from 'react';
-import Logo from './img/logo-header.png'
-import { signOut }  from './actions'
+import React from "react";
+import { signOut } from "./actions";
 import { Link } from "react-router-dom";
+import { Logo } from "loft-taxi-mui-theme";
+import { connect } from "react-redux";
+import "./Header.css";
 
-const Header = (props) => {
-  // const unauth = (e) => {
-  //   e.preventDefault();
-  //   const {signOut} = props;
-  //   signOut({success: false, error: ''});
-  // }
-
-  return(
-      <div>
-        <img alt="logo" src={ Logo }></img>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/map">Map</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/">Log out</Link>
-            </li>
-            <li>
-              <Link to="/signup">Sign up</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
+class Header extends React.Component {
+  unauthenticate = () => {
+    this.props.signOut();
+  };
+  render() {
+    return (
+      <header className="header">
+        <div className="content">
+          <Logo />
+          <nav className="nav">
+            <ul className="list">
+              <li className="nav-item">
+                <Link to="/map" className="link">Map</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/profile" className="link">Profile</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/signin" onClick={this.unauthenticate} className="link">
+                  Log out
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
     );
-};
+  }
+}
 
-export default Header;
+export default connect(null, { signOut })(Header);
