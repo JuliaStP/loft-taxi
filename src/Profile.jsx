@@ -14,8 +14,6 @@ class Profile extends React.Component {
     expiryDate: "",
     cardName: "",
     cvc: "",
-    hasCard: false,
-    token: "",
   };
 
   componentDidMount() {
@@ -36,17 +34,17 @@ class Profile extends React.Component {
       cardNumber.value,
       expiryDate.value,
       cardName.value,
-      cvc.value
+      cvc.value,
     );
   };
 
   render() {
-    const { cardNumber, expiryDate, cardName, cvc, hasCard } = this.state;
+    const { cardNumber, expiryDate, cardName, cvc } = this.state;
     return (
       <>
         <Header />
         <div className="profile-container">
-          {hasCard ? (
+          { cardNumber && expiryDate && cardName && cvc ? (
             <div>
               <header>Profile</header>
               <p>Your information has been added. You may proceed to your order</p>
@@ -121,7 +119,7 @@ class Profile extends React.Component {
                 </div>
               </form>
             </div>
-          )}
+           )} 
         </div>
       </>
     );
@@ -129,11 +127,7 @@ class Profile extends React.Component {
 }
 export default connect(
   (state) => ({
-    token: state.auth.token,
-    cardNumber: state.card.cardNumber,
-    expiryDate: state.card.expiryDate,
-    cardName: state.card.cardName,
-    cvc: state.card.cvc,
+    token: state.auth.token
   }),
   { setCard, getCard }
 )(Profile);

@@ -1,5 +1,3 @@
-// import {createAction} from 'redux-actions';
-
 // signin
 export const LOG_IN = "LOG_IN";
 export const LOG_OUT = "LOG_OUT";
@@ -41,5 +39,35 @@ export const getCardSuccess = (data) => ({
       expiryDate: data.expiryDate, 
       cardName: data.cardName, 
       cvc: data.cvc
+  } 
+});
+
+//address
+export const GET_ADDRESS = 'GET_ADDRESS';
+export const GET_ADDRESS_SUCCESS = 'GET_ADDRESS_SUCCESS';
+
+export const getAddress = () => ({
+  type: GET_ADDRESS
+});
+export const getAddressSuccess = (data) => ({ 
+  type: GET_ADDRESS_SUCCESS,
+  payload: {
+      addresses: data.addresses 
+  } 
+});
+
+//route
+
+export const GET_ROUTE = 'GET_ROUTE';
+export const GET_ROUTE_SUCCESS = 'GET_ROUTE_SUCCESS';
+
+export const getRoute = (address1, address2) => ({
+  type: GET_ROUTE,
+  payload: {address1, address2} 
+});
+export const getRouteSuccess = (data) => ({ 
+  type: GET_ROUTE_SUCCESS,
+  payload: {
+      route: data
   } 
 });
