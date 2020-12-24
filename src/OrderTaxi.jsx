@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import "./OrderTaxi.css";
 import { connect } from "react-redux";
-import { getRoute } from "./actions";
+import { getRoute, getAddress } from "./actions";
 import FormLabel from "@material-ui/core/FormLabel";
 
 class OrderTaxi extends Component {
   state = {
     from: "",
     to: "",
+    addresses: [],
   };
 
   getRoute = (e) => {
@@ -16,9 +17,15 @@ class OrderTaxi extends Component {
     this.props.getRoute(from.value, to.value);
   };
 
+  getAddress = (e) => {
+    e.preventDefault();
+    const { addresses } = e.target;
+    this.props.getAddress(addresses.value);
+}
   render() {
     const { from, to } = this.state;
-    const addresses = this.props.addresses.addresses;
+    const addresses = this.props.addresses;
+    
     return (
       <div className="form order-wrapper">
         <form onSubmit={this.getRoute} className="order-taxi">
@@ -30,7 +37,7 @@ class OrderTaxi extends Component {
               value={from}
               onChange={(e) => this.setState({ from: e.target.value })}
             >
-              <option default disabled key="default"></option>
+              <option onChange={this.getAddress} default disabled key="default"></option>
               {addresses.map(
                 (address) =>
                   address !== this.state.to && (
@@ -47,7 +54,7 @@ class OrderTaxi extends Component {
               value={to}
               onChange={(e) => this.setState({ to: e.target.value })}
             >
-              <option default disabled key="default"></option>
+              <option onChange={this.getAddress} default disabled key="default"></option>
               {addresses.map(
                 (address) =>
                   address !== this.state.from && (

@@ -2,6 +2,7 @@ import { GET_ROUTE_SUCCESS, LOG_OUT } from "../actions";
 
 const initialState = {
   route: [],
+  // coordinates: []
 };
 
 export default function (state = initialState, action) {
@@ -9,6 +10,7 @@ export default function (state = initialState, action) {
     case GET_ROUTE_SUCCESS: {
       return {
         route: action.payload.route,
+        // coordinates: action.payload.coordinates
       };
     }
     case LOG_OUT: {

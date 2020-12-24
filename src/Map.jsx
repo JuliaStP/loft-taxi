@@ -4,8 +4,41 @@ import mapboxgl from "mapbox-gl";
 import Header from "./Header";
 import "./Map.css";
 import OrderTaxi from "./OrderTaxi";
-import { Route } from "./Route";
+// import { Route } from "./Route";
 import { Link } from "react-router-dom";
+
+const Route = (map, coordinates) => {
+  // map.getLayer('route') && map.removeLayer('route').removeSource('route');
+
+  map.flyTo({
+    center: coordinates[0],
+    zoom: 13
+  });
+ 
+  map.addLayer({
+    id: 'route',
+    type: 'line',
+    source: {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates
+        }
+      }
+    },
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round'
+    },
+    paint: {
+      'line-color': '#ffc617',
+      'line-width': 8
+    }
+  });
+};
 
 class Map extends Component {
   constructor(props) {
@@ -13,6 +46,11 @@ class Map extends Component {
     this.map = null;
     this.mapContainer = React.createRef();
   }
+
+  state = {
+    hasCard: true,
+    coordinates: []
+  };
 
   componentDidMount() {
     mapboxgl.accessToken =
@@ -26,6 +64,15 @@ class Map extends Component {
     });
   }
 
+  // componentDidUpdate() {
+  //   if (this.map.getLayer('route')) {
+  //     this.map.removeLayer('route');
+  //     this.map.removeSource('route');
+  // }
+  //     Route(this.map, this.props.coordinates);
+    
+  // }
+
   componentDidUpdate() {
     if (this.props.coordinates.length > 0) {
       Route(this.map, this.props.coordinates);
@@ -37,7 +84,6 @@ class Map extends Component {
   }
 
   render() {
-    const { cardNumber, expiryDate, cardName, cvc } = this.props;
     return (
       <>
         <Header />
@@ -46,7 +92,7 @@ class Map extends Component {
           className="mapContainer"
           ref={this.mapContainer}
         ></div>
-        {cardNumber && expiryDate && cardName && cvc ? (
+        {this.props.hasCard  ? (
           <OrderTaxi />
         ) : (
           <div className="form-alert">
@@ -58,7 +104,7 @@ class Map extends Component {
               </Link>
             </div>
           </div>
-        )}
+        )} 
       </>
     );
   }
@@ -66,10 +112,12 @@ class Map extends Component {
 
 export default connect(
   (state) => ({
-    cardNumber: state.card.cardNumber,
-    expiryDate: state.card.expiryDate,
-    cardName: state.card.cardName,
-    cvc: state.card.cvc,
-    coordinates: state.route.route
+    // cardNumber: state.card.cardNumber,
+    // expiryDate: state.card.expiryDate,
+    // cardName: state.card.cardName,
+    // cvc: state.card.cvc,
+    coordinates: state.route.route,
+    hasCard: state.card.hasCard,
+    addresses: state.addresses.addresses
   }),{}
 )(Map);

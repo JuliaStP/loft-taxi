@@ -9,35 +9,37 @@ jest.mock('../api', () => ({
 }));
 
 describe('cardSaga', () => {
-    describe('#SET_CARD', () => {
-      it('set card data', async () => {
-        serverSetCard
-        .mockImplementation(async () => true);
+  describe('#SET_CARD', () => {
+    it('set card data through api', async () => {
+      serverSetCard.mockImplementation(async () => true);
+      const dispatched = await saveSaga(
+          setCardSaga,
+          setCard('cardNumber', 'expiryDate', 'cardName', 'cvc', 'token')
+      )
+      expect(dispatched).toEqual([{ 
+        type: 'SET_CARD_SUCCESS'
+      }, { 
+        type: 'GET_CARD'
+      }])
+    });
+  });
+
+  describe('#GET_CARD', () => {
+      it('get card data through api', async () => {
+        serverGetCard.mockImplementation(async () => true);
         const dispatched = await saveSaga(
-            setCardSaga,
-            setCard('cardNumber', 'expiryDate', 'cardName', 'cvc', 'token')
+            getCardSaga,
+            getCard('cardNumber', 'expiryDate', 'cardName', 'cvc')
         )
-        expect(dispatched).toEqual([{ type: 'SET_CARD_SUCCESS' }])
+        expect(dispatched).toEqual([{ 
+          type: 'GET_CARD_SUCCESS',
+          payload: {
+              'cardNumber': undefined, 
+              'expiryDate': undefined, 
+              'cardName': undefined, 
+              'cvc': undefined
+          }
+         }])
       });
     });
-
-    describe('#GET_CARD', () => {
-        it('get card data', async () => {
-          serverGetCard
-          .mockImplementation(async () => true);
-          const dispatched = await saveSaga(
-              getCardSaga,
-              getCard('cardNumber', 'expiryDate', 'cardName', 'cvc', 'token')
-          )
-          expect(dispatched).toEqual([{ 
-            type: 'GET_CARD_SUCCESS',
-            payload: {
-                'cardNumber': undefined, 
-                'expiryDate': undefined, 
-                'cardName': undefined, 
-                'cvc': undefined
-            }
-           }])
-        });
-      });
 });  

@@ -6,7 +6,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Input from "@material-ui/core/Input";
 import { MCIcon } from "loft-taxi-mui-theme";
 import "./Profile.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 class Profile extends React.Component {
   state = {
@@ -14,17 +14,19 @@ class Profile extends React.Component {
     expiryDate: "",
     cardName: "",
     cvc: "",
+    hasCard: false,
   };
 
   componentDidMount() {
-    this.props.getCard();
+    // this.props.getCard();
 
-    setTimeout(() => {
-      this.setState({ cardNumber: this.props.cardNumber });
-      this.setState({ expiryDate: this.props.expiryDate });
-      this.setState({ cardName: this.props.cardName });
-      this.setState({ cvc: this.props.cvc });
-    }, 800);
+    // setTimeout(() => {
+    this.setState({ cardNumber: this.props.cardNumber });
+    this.setState({ expiryDate: this.props.expiryDate });
+    this.setState({ cardName: this.props.cardName });
+    this.setState({ cvc: this.props.cvc });
+    this.setState({ hasCard: true });
+    // }, 800);
   }
 
   setCard = (e) => {
@@ -34,21 +36,28 @@ class Profile extends React.Component {
       cardNumber.value,
       expiryDate.value,
       cardName.value,
-      cvc.value,
+      cvc.value
     );
+    this.state = {
+      hasCard: true,
+    };
   };
 
   render() {
-    const { cardNumber, expiryDate, cardName, cvc } = this.state;
+    const { cardNumber, expiryDate, cardName, cvc, hasCard } = this.state;
     return (
       <>
         <Header />
         <div className="profile-container">
-          { cardNumber && expiryDate && cardName && cvc ? (
-            <div>
-              <header>Profile</header>
-              <p>Your information has been added. You may proceed to your order</p>
-              <Link to="./map">Go to Map</Link>
+          {this.props.hasCard ? (
+            <div className="form profile-form">
+              <h2>Profile</h2>
+              <p>
+                Your information has been added. You may proceed to your order
+              </p>
+              <button className="button">
+                <Link to="./map">Go to Map</Link>
+              </button>
             </div>
           ) : (
             <div className="form profile-form">
@@ -119,7 +128,8 @@ class Profile extends React.Component {
                 </div>
               </form>
             </div>
-           )} 
+          )}
+          {/* )}  */}
         </div>
       </>
     );
@@ -127,7 +137,12 @@ class Profile extends React.Component {
 }
 export default connect(
   (state) => ({
-    token: state.auth.token
+    // cardNumber: state.card.cardNumber,
+    // expiryDate: state.card.expiryDate,
+    // cardName: state.card.cardName,
+    // cvc: state.card.cvc,
+    token: state.auth.token,
+    hasCard: state.card.hasCard,
   }),
   { setCard, getCard }
 )(Profile);

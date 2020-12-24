@@ -2,8 +2,8 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import { serverGetAddress } from "../api";
 import { GET_ADDRESS, getAddressSuccess } from "../actions";
 
-export function* getAddressListSaga(action) {
-  const data = yield call(serverGetAddress);
+export function* getAddressListSaga (action){
+  const data = yield call(serverGetAddress); //// new
   if (data) {
     yield put(getAddressSuccess(data));
   }
