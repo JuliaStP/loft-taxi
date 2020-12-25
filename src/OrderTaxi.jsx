@@ -20,8 +20,9 @@ class OrderTaxi extends Component {
   getAddress = (e) => {
     e.preventDefault();
     const { addresses } = e.target;
-    this.props.getAddress(addresses.value);
-}
+    this.props.getAddress(addresses);
+};
+
   render() {
     const { from, to } = this.state;
     const addresses = this.props.addresses;
@@ -35,6 +36,7 @@ class OrderTaxi extends Component {
               className="order-taxi__input"
               name="from"
               value={from}
+              onClick={this.getAddress}
               onChange={(e) => this.setState({ from: e.target.value })}
             >
               <option onChange={this.getAddress} default disabled key="default"></option>
@@ -52,9 +54,10 @@ class OrderTaxi extends Component {
               className="order-taxi__input"
               name="to"
               value={to}
+              onClick={this.getAddress}
               onChange={(e) => this.setState({ to: e.target.value })}
             >
-              <option onChange={this.getAddress} default disabled key="default"></option>
+              <option  default disabled key="default"></option>
               {addresses.map(
                 (address) =>
                   address !== this.state.from && (
@@ -75,6 +78,7 @@ class OrderTaxi extends Component {
 export default connect(
   (state) => ({
     addresses: state.addresses.addresses,
+    
   }),
-  { getRoute }
+  { getRoute, getAddress }
 )(OrderTaxi);

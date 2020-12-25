@@ -1,4 +1,5 @@
 // signin
+
 export const LOG_IN = "LOG_IN";
 export const LOG_OUT = "LOG_OUT";
 export const AUTHENTICATE = "AUTHENTICATE";
@@ -11,13 +12,15 @@ export const authenticate = (email, password) => ({
 });
 
 // signup
+
 export const SIGN_UP = "SIGN_UP";
-export const signUp = (email, firsName, lastName, password) => ({
+export const signUp = (email, firstName, lastName, password) => ({
   type: SIGN_UP,
-  payload: { email, firsName, lastName, password },
+  payload: { email, firstName, lastName, password },
 });
 
 //profile
+
 export const SET_CARD = "SET_CARD";
 export const SET_CARD_SUCCESS = "SET_CARD_SUCCESS";
 export const GET_CARD = "GET_CARD";
@@ -48,6 +51,7 @@ export const getCardSuccess = (data) => ({
 });
 
 //address
+
 export const GET_ADDRESS = "GET_ADDRESS";
 export const GET_ADDRESS_SUCCESS = "GET_ADDRESS_SUCCESS";
 
@@ -72,5 +76,7 @@ export const getRoute = (address1, address2) => ({
 });
 export const getRouteSuccess = (data) => ({
   type: GET_ROUTE_SUCCESS,
-  payload: data
+  payload: {
+    route: data
+}
 });

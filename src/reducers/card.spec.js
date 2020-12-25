@@ -12,6 +12,7 @@ describe("card", () => {
       expiryDate: "",
       cardName: "",
       cvc: "",
+      hasCard: ""
     });
   });
 

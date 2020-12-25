@@ -18,15 +18,11 @@ class Profile extends React.Component {
   };
 
   componentDidMount() {
-    // this.props.getCard();
-
-    // setTimeout(() => {
     this.setState({ cardNumber: this.props.cardNumber });
     this.setState({ expiryDate: this.props.expiryDate });
     this.setState({ cardName: this.props.cardName });
     this.setState({ cvc: this.props.cvc });
     this.setState({ hasCard: true });
-    // }, 800);
   }
 
   setCard = (e) => {
@@ -38,13 +34,10 @@ class Profile extends React.Component {
       cardName.value,
       cvc.value
     );
-    // this.state = {
-    //   hasCard: true,
-    // };
   };
 
   render() {
-    const { cardNumber, expiryDate, cardName, cvc, hasCard } = this.state;
+    const { cardNumber, expiryDate, cardName, cvc } = this.state;
     return (
       <>
         <Header />
