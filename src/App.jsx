@@ -1,37 +1,41 @@
 import React from "react";
+import SignUp from "./SignUp";
 import SignIn from "./SignIn";
-import SignUp  from "./SignUp";
-import { Profile } from "./Profile";
-import { Map } from "./Map";
-import './App.css';
-import Header from './Header';
+import  Profile  from "./Profile";
+import Map from "./Map";
+import PropTypes from "prop-types";
+import "./App.css";
+import { connect } from "react-redux";
+import { PrivateRoute } from "./PrivateRoute";
+import { Switch, Route, Redirect } from "react-router-dom";
+
+import { Logo } from "loft-taxi-mui-theme";
 
 class App extends React.Component {
-  state = { currentPage: 'signin'};
-
-  navigateTo = (page) => {
-    this.setState({ currentPage: page });
-  };
-
-  pages = {
-    map: <Map />,
-    profile: <Profile />,
-    signin: <SignIn navigateTo={this.navigateTo} />,
-    signup: <SignUp navigateTo={this.navigateTo} />
-  };
-
-
   render() {
-    const {currentPage} = this.state
-    const paths = Object.keys(this.pages)
-    
     return (
-      <>
-        <Header paths={paths} navigateTo={this.navigateTo} />
-        {this.pages[currentPage]}
-      </>
+      <div className="wrapper">
+        <div className="main">
+          <div className="logo">
+            <Logo />
+          </div>
+          <section>
+            <Switch>
+              <Route exact path="/" component={SignIn} />
+              <Route path="/signup" component={SignUp} />
+              <PrivateRoute path="/map" component={Map} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <Redirect from="*" to="/" />
+            </Switch>
+          </section>
+        </div>
+      </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  isLoggedIn: PropTypes.bool,
+};
+
+export default connect((state) => ({ isLoggedIn: state.auth.isLoggedIn }))(App);

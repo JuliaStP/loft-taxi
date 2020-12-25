@@ -1,0 +1,32 @@
+.signup-form {
+  right: 50%;
+  top: 50%;
+  transform: translate(100%, -50%);
+  position: absolute;
+}
+
+.signup {
+  display: flex;
+  flex-direction: column;
+}
+.label {
+      margin-top: 45px;
+  }
+
+.input {
+      margin-top: 10px;
+      width: 100%;
+  }
+
+.button {
+      min-height: 50px;
+      min-width: 250px;
+      margin-top: 40px;
+      margin-left: auto;
+  }
+
+.inlineInputs {
+  display: flex;
+  justify-content: space-between; 
+  width: 390px;
+}

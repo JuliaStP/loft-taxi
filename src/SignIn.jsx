@@ -1,34 +1,61 @@
-import React from 'react'
+import React from 'react';
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { authenticate } from "./actions";
+import './SignIn.css';
+
+import FormLabel from '@material-ui/core/FormLabel';
+import Input from '@material-ui/core/Input';
 
 class SignIn extends React.Component {
-  handleSubmit =(e)=>{
-    const {navigateTo} = this.props;
-    e.preventDefault()
-    navigateTo('map');
+  state = {
+    email: '',
+    password: ''
   }
-
-  handleSignup =(e)=>{
-    const {navigateTo} = this.props;
-    e.preventDefault()
-    navigateTo('signup');
-  }
-
+  
+  authenticate = e => {
+    e.preventDefault();
+    const {email, password} = e.target ;
+    this.props.authenticate(email.value, password.value); 
+  };
+ 
   render() {
+    const { email, password } = this.state;
     return (
-      <>
-        <form> Sign In
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" placeholder="mail@mail.com" size="28" />
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" placeholder="**********" size="28" />
-          <button onClick={this.handleSubmit}>Sign in</button>
-          <div>New user? 
-            <button onClick={this.handleSignup}>Sign up</button>
-          </div>
+      <div className='form login-form'> 
+        {this.props.isLoggedIn && < Redirect to='/map' />}
+        <h2>Sign In</h2>
+        New User?  <Link to='/signup'>Sign Up</Link>
+        <form onSubmit={this.authenticate} className='login'>
+          <FormLabel className='label'>
+            User Name*
+            <Input 
+              className='input'
+              type='text'
+              name='email'
+              value={email} 
+              onChange={e => this.setState({ email: e.target.value })} 
+            />
+          </FormLabel>
+          <FormLabel className='label'>
+            Password*
+            <Input 
+              className='input'
+              type='password'
+              name='password'
+              value={password} 
+              onChange={e => this.setState({ password: e.target.value })} 
+            />
+          </FormLabel>
+          <button type='submit' className='button'>Log In</button>
         </form>
-      </>
+      </div>
     );
   }
 }
 
-export default SignIn;
+export default connect(
+  (state) => ({isLoggedIn: state.auth.isLoggedIn}),
+  { authenticate }
+)(SignIn);
+

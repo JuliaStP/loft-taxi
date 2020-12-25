@@ -1,10 +1,36 @@
 import React from "react";
-import { Profile } from "./Profile";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
+import Profile from "./Profile";
+
+const mockStore = {
+  getState: () => ({
+    card: { cardNumber: "", expiryDate: "", cardName: "", cvc: "" },
+    auth: { token: "" },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+};
 
 describe("Profile", () => {
   it("renders correctly", () => {
-    const { container } = render(<Profile />);
-    expect(container.innerHTML).toMatch("Profile")
+    const { getByLabelText } = render(
+      <BrowserRouter>
+        <Provider store={mockStore}>
+          <Profile />
+        </Provider>
+      </BrowserRouter>
+    );
+    expect(getByLabelText("Card Number:")).toHaveAttribute(
+      "name",
+      "cardNumber"
+    );
+    expect(getByLabelText("Expiration Date:")).toHaveAttribute(
+      "name",
+      "expiryDate"
+    );
+    expect(getByLabelText("Full Name:")).toHaveAttribute("name", "cardName");
+    expect(getByLabelText("CVC:")).toHaveAttribute("name", "cvc");
   });
 });
