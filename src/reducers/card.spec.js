@@ -1,16 +1,44 @@
-import card from './card';
+import { SET_CARD_SUCCESS, GET_CARD_SUCCESS, LOG_OUT } from "../actions";
+import cardReducer, { initialState } from "./card";
 
-describe('test profile reducer', () => {
-  it('test SET_CARD_SUCCESS', () => {
-    let result = card({}, {type: 'SET_CARD_SUCCESS'});
-    expect(result.isLoggedIn).toBe(true);
+describe("card", () => {
+  it("SET_CARD_SUCCESS", () => {
+    const action = {
+      type: SET_CARD_SUCCESS,
+    };
+    expect(cardReducer(initialState, action)).toEqual({
+      ...initialState,
+      cardNumber: "",
+      expiryDate: "",
+      cardName: "",
+      cvc: "",
+    });
   });
-  it('test GET_CARD_SUCCESS', () => {
-    let result = card({}, {type: 'GET_CARD_SUCCESS'});
-    expect(result.isLoggedIn).toBe(true);
-    expect(result.cardName !== '').toBe(true);
-    expect(result.cardNumber !== '').toBe(true);
-    expect(result.expiryDate !== '').toBe(true);
-    expect(result.cvc !== '').toBe(true);
+
+  it("GET_CARD_SUCCESS", () => {
+    const action = {
+      type: GET_CARD_SUCCESS,
+      payload: {},
+    };
+    expect(cardReducer(initialState, action)).toEqual({
+      ...initialState,
+      cardNumber: action.payload.cardNumber,
+      expiryDate: action.payload.expiryDate,
+      cardName: action.payload.cardName,
+      cvc: action.payload.cvc,
+    });
   });
-})
+
+  it("LOG_OUT", () => {
+    const action = {
+      type: LOG_OUT,
+    };
+    expect(cardReducer(initialState, action)).toEqual({
+      ...initialState,
+      cardNumber: "",
+      expiryDate: "",
+      cardName: "",
+      cvc: "",
+    });
+  });
+});

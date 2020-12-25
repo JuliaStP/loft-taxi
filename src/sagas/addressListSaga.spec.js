@@ -18,7 +18,9 @@ describe('addressListSaga', () => {
       )
       expect(dispatched).toEqual({ 
         type: 'GET_ADDRESS_SUCCESS',
-        payload: [] 
+        payload: {
+          addresses: undefined
+        }
       })
     });
   });

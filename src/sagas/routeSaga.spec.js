@@ -1,24 +1,49 @@
-import { routeSaga } from './routeSaga';
 import { saveSaga } from './saveSaga';
-import { getRoute } from '../actions';
-import { serverGetRoute } from '../api';
+import { setCard, getCard } from '../actions';
+import { serverSetCard, serverGetCard } from '../api';
+import { setCardSaga, getCardSaga } from './cardSaga';
 
 jest.mock('../api', () => ({ 
-    serverGetRoute: jest.fn(() => {})
+  serverSetCard: jest.fn(() => true),
+  serverGetCard: jest.fn(() => true)
 }));
 
-describe('routeSaga', () => {
-  describe('#GET_ROUTE', () => {
-    it('get route through api', async () => {
-      serverGetRoute.mockImplementation(async () => true);
+describe('cardSaga', () => {
+  describe('#SET_CARD', () => {
+    it('set card data through api', async () => {
+      serverSetCard.mockImplementation(async () => true);
       const dispatched = await saveSaga(
-          routeSaga,
-          getRoute('address1', 'address2')
+          setCardSaga,
+          setCard('cardNumber', 'expiryDate', 'cardName', 'cvc', 'token')
       )
-      expect(dispatched).toEqual({ 
-        type: 'GET_ROUTE_SUCCESS',
-        payload: []
-      })
+      expect(dispatched).toEqual([{ 
+        type: 'SET_CARD_SUCCESS'
+      }, { 
+        type: 'GET_CARD',
+        payload: {
+          token: 'token',
+          hasCard: true,
+        }
+      }])
     });
   });
-});   
+
+  describe('#GET_CARD', () => {
+      it('get card data through api', async () => {
+        serverGetCard.mockImplementation(async () => true);
+        const dispatched = await saveSaga(
+            getCardSaga,
+            getCard('cardNumber', 'expiryDate', 'cardName', 'cvc', 'token')
+        )
+        expect(dispatched).toEqual([{ 
+          type: 'GET_CARD_SUCCESS',
+          payload: {
+              'cardNumber': undefined, 
+              'expiryDate': undefined, 
+              'cardName': undefined, 
+              'cvc': undefined
+          }
+         }])
+      });
+    });
+}); 

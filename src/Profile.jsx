@@ -38,9 +38,9 @@ class Profile extends React.Component {
       cardName.value,
       cvc.value
     );
-    this.state = {
-      hasCard: true,
-    };
+    // this.state = {
+    //   hasCard: true,
+    // };
   };
 
   render() {
@@ -137,10 +137,10 @@ class Profile extends React.Component {
 }
 export default connect(
   (state) => ({
-    // cardNumber: state.card.cardNumber,
-    // expiryDate: state.card.expiryDate,
-    // cardName: state.card.cardName,
-    // cvc: state.card.cvc,
+    cardNumber: state.card.cardNumber,
+    expiryDate: state.card.expiryDate,
+    cardName: state.card.cardName,
+    cvc: state.card.cvc,
     token: state.auth.token,
     hasCard: state.card.hasCard,
   }),

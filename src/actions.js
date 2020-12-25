@@ -32,13 +32,19 @@ export const setCard = (cardNumber, expiryDate, cardName, cvc, token) => ({
   token}
 });
 export const setCardSuccess = () => ({ type: SET_CARD_SUCCESS });
-export const getCard = (token) => ({
+export const getCard = (token, hasCard) => ({
   type: GET_CARD,
-  payload: token,
+  payload: token, hasCard
 });
 export const getCardSuccess = (data) => ({
   type: GET_CARD_SUCCESS,
-  payload: data,
+  payload: {
+    cardNumber: data.cardNumber, 
+    expiryDate: data.expiryDate, 
+    cardName: data.cardName, 
+    cvc: data.cvc
+  }
+
 });
 
 //address
@@ -50,7 +56,9 @@ export const getAddress = () => ({
 });
 export const getAddressSuccess = (data) => ({
   type: GET_ADDRESS_SUCCESS,
-  payload: data,
+  payload: {
+    addresses: data.addresses 
+} 
 });
 
 //route
@@ -60,7 +68,7 @@ export const GET_ROUTE_SUCCESS = "GET_ROUTE_SUCCESS";
 
 export const getRoute = (address1, address2) => ({
   type: GET_ROUTE,
-  payload:  address1, address2 
+  payload:  {address1, address2 }
 });
 export const getRouteSuccess = (data) => ({
   type: GET_ROUTE_SUCCESS,
