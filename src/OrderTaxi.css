@@ -1,0 +1,74 @@
+.order-wrapper {
+  left: 50%;
+  transform: translate(-120%, 100px);
+  min-width: 488px;
+  padding: 42px 48px;
+  position: absolute;
+}
+
+.form-alert {
+  width: 490px;
+  position: absolute;
+  left: 15px;
+  top: 80px;
+  background: #fff;
+  border-radius: 3px;
+  padding: 40px 50px;
+  margin-left: 14%;
+  margin-top: 5%;
+}
+
+.profile-btn {
+  display: inline-block;
+  vertical-align: middle;
+  border: none;
+  background: #ffc617;
+  border-radius: 3px;
+  font: normal 21px/47px "adobeclean-regular", sans-serif;
+  padding: 3px 30px 0 30px;
+  cursor: pointer;
+  color: inherit;
+  margin-top: 20px;
+}
+
+.order-taxi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.label {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.order-taxi__input {
+  font: inherit;
+  border: 0;
+  margin: 0;
+  display: block;
+  color: #5e5e5e;
+  position: relative;
+  font-size: 1rem;
+  box-sizing: border-box;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+  outline: none;
+  padding: 6px 0 7px;
+  border-bottom: 2px solid #b5b5b5;
+}
+.order-taxi__input:hover {
+  border-bottom: 2px solid #000;
+}
+
+.order-taxi__input:focus {
+  border-bottom: 2px solid #1473e6;
+}
+
+.order-taxi__button {
+  min-height: 50px;
+  width: 100%;
+}

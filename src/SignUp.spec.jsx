@@ -1,12 +1,57 @@
 import React from "react";
 import SignUp from "./SignUp";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+const mockStore = {
+  getState: () => ({auth: {isLoggedIn: true}}),
+  subscribe: () => {},
+  dispatch: () => {}
+}  
 
 describe("SignUp", () => {
-  it("renders correctly", () => {
-    const { getByLabelText } = render(<SignUp />);
-    expect(getByLabelText('Email')).toHaveAttribute('name', 'email')
-    expect(getByLabelText('Full name')).toHaveAttribute('name', 'name')
-    expect(getByLabelText('Password')).toHaveAttribute('name', 'password')
+  it('renders correctly', () => {
+    const { getByLabelText  } = render(
+        <BrowserRouter>
+            <Provider store={mockStore}>
+                <SignUp />
+            </Provider>
+        </BrowserRouter>
+    );
+    expect(getByLabelText('Email*')).toHaveAttribute('name', 'email');
+    expect(getByLabelText('First Name*')).toHaveAttribute('name', 'firstName');
+    expect(getByLabelText('Last Name*')).toHaveAttribute('name', 'lastName');
+    expect(getByLabelText('Password*')).toHaveAttribute('name', 'password');
+})
+
+describe('clicked on sign up button', () => {
+    it('opens sign up page', () => {
+        window.location= jest.fn();
+        const {getByText} = render(
+            <BrowserRouter>
+                <Provider store={mockStore}>
+                    <SignUp />
+                </Provider>
+            </BrowserRouter>
+        );
+        
+        fireEvent.click(getByText('Sign In'));
+        expect(window.location.pathname).toBe('/');
+    });
+})
+
+describe('when signed in', () => {
+  it('clicked on sign up button', () => {
+    window.location= jest.fn();
+    render(
+      <BrowserRouter>
+          <Provider store={mockStore}>
+              <SignUp isLoggedIn />
+          </Provider>
+      </BrowserRouter>
+    );
+    expect(window.location.pathname).toBe('/map');
   });
 });
+})
